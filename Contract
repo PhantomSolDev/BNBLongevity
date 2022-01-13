@@ -5,9 +5,7 @@ contract BNBLongevity {
 
 	uint256 constant public INVEST_MIN_AMOUNT = 0.05 ether; // 0.05 bnb
 	uint256[] public REFERRAL_PERCENTS = [50, 30, 20];
-	uint256 constant public PROJECT_FEE = 50;
-    uint256 constant public DEVELOPER_FEE = 10;
-  	uint256 constant public MARKETING_FEE = 40;
+	uint256 constant public PROJECT_FEE = 100;
 	uint256 constant public PERCENTS_DIVIDER = 1000;
 	uint256 constant public TIME_STEP = 1 days;
     
@@ -47,8 +45,6 @@ struct Deposit {
 	bool public started;
     uint256 public startUNIX;
 	address payable public commissionWallet;
-	address payable public developerWallet;
-  	address payable public marketingWallet;
 
 	event Newbie(address user);
 	event NewDeposit(address indexed user, uint8 plan, uint256 amount);
@@ -59,8 +55,6 @@ struct Deposit {
 	constructor(address payable wallet, address payable _developer, address payable _marketing) public {
 		require(!isContract(wallet));
 		commissionWallet = wallet;
-        developerWallet = _developer;
-      	marketingWallet = _marketing;
 startUNIX = block.timestamp.add(365 days);
 
         plans.push(Plan(30, 40)); // 30 days 4% daily // 120%
@@ -81,11 +75,7 @@ startUNIX = block.timestamp.add(365 days);
 
 		    uint256 fee = msg.value.mul(PROJECT_FEE).div(PERCENTS_DIVIDER);
 		    commissionWallet.transfer(fee);
-		    emit FeePayed(msg.sender, fee);
-            uint256 developerFee = msg.value.mul(DEVELOPER_FEE).div(PERCENTS_DIVIDER);
-		    developerWallet.transfer(developerFee);
-        	uint256 marketingFee = msg.value.mul(MARKETING_FEE).div(PERCENTS_DIVIDER);
-            marketingWallet.transfer(marketingFee);	
+		    emit FeePayed(msg.sender, fee);	
 
 		User storage user = users[msg.sender];
 
