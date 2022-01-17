@@ -4,7 +4,7 @@ contract BNBLongevity {
 	using SafeMath for uint256;
 
 	uint256 constant public INVEST_MIN_AMOUNT = 0.05 ether; // 0.05 bnb
-	uint256[] public REFERRAL_PERCENTS = [50, 30, 20];
+	uint256[] public REFERRAL_PERCENTS = [50, 20, 10];
 	uint256 constant public PROJECT_FEE = 100;
 	uint256 constant public PERCENTS_DIVIDER = 1000;
 	uint256 constant public TIME_STEP = 1 days;
